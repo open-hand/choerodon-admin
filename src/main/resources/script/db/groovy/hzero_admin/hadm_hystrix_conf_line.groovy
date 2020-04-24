@@ -1,4 +1,4 @@
-package script.db
+package script.db.db.groovy.hzero_admin
 
 databaseChangeLog(logicalFilePath: 'script/db/hadm_hystrix_conf_line.groovy') {
     changeSet(author: "hzero@hand-china.com", id: "2019-11-01-hadm_hystrix_conf_line") {

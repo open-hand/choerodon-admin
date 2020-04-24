@@ -1,4 +1,4 @@
-package script.db
+package script.db.db.groovy.hzero_admin
 
 databaseChangeLog(logicalFilePath: 'script/db/hadm_gw_rate_limit_dim.groovy') {
     changeSet(author: "hzero@hand-china.com", id: "2020-01-01-hadm_gw_rate_limit_dim") {

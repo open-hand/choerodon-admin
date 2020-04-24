@@ -1,4 +1,4 @@
-package script.db
+package script.db.db.groovy.hzero_admin
 
 databaseChangeLog(logicalFilePath: 'script/db/hadm_node_rule_tenant.groovy') {
     changeSet(author: "qingsheng.chen@hand-china.com", id: "2019-01-02-hadm_node_rule_tenant") {
