@@ -147,7 +147,7 @@ service:
   # Service 名称
   name: hzero-admin
   # Service 类型
-  type: ClusterIP
+  type: NodePort
   # 指定 service 的 clusterIP
   clusterIP: ~
   # 端口设置
