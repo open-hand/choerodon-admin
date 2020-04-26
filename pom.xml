@@ -24,6 +24,7 @@
         <dependency>
             <groupId>org.hzero</groupId>
             <artifactId>hzero-admin-saas</artifactId>
+            <version>1.5.0-SNAPSHOT</version>
         </dependency>
 
 

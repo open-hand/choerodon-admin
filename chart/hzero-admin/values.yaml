@@ -4,30 +4,14 @@ preJob:
   timeout: 1200
   # 工具 jar 包镜像库地址
   image: registry.cn-shanghai.aliyuncs.com/c7n/dbtool:0.6.7
-  preConfig:
-    # 是否初始化manager_service数据库
-    enabled: true
-    # 初始化到配置中心文件名
-    configFile: application.yml
-    # 初始化到配置中心存储方式: k8s/db
-    configType: k8s
-    # 初始化配置策略: not/add/override/update
-    updatePolicy: add
-    # 注册中心地址
-    registerHost: http://register-server:8000
-    # 当 configType 值为 db 时配置 manager-service 的数据库
-    datasource:
-      url: jdbc:mysql://localhost:3306/manager_service?useUnicode=true&characterEncoding=utf-8&useSSL=false&useInformationSchema=true&remarks=true&serverTimezone=Asia/Shanghai
-      username: username
-      password: password
   preInitDB:
-    # 是否初始化base_service数据库
+    # 是否初始化hzero_admin数据库
     enabled: true
     datasource:
       # 初始化数据库更新数据的时候忽略的表或列
       exclusion: iam_user.hash_password,oauth_client.web_server_redirect_uri,oauth_ldap.server_address,oauth_ldap.object_class,iam_role.is_enabled,fd_organization.name
       # 本服务数据库相关信息
-      url: jdbc:mysql://localhost:3306/base_service?useUnicode=true&characterEncoding=utf-8&useSSL=false&useInformationSchema=true&remarks=true&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://localhost:3306/hzero_admin?useUnicode=true&characterEncoding=utf-8&useSSL=false&useInformationSchema=true&remarks=true&serverTimezone=Asia/Shanghai
       username: username
       password: password
       driver: com.mysql.jdbc.Driver
@@ -86,7 +70,7 @@ env:
     SPRING_REDIS_DATABASE: 2
 
     # 数据库连接地址
-    SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/base_service?useUnicode=true&characterEncoding=utf-8&useSSL=false&useInformationSchema=true&remarks=true&serverTimezone=Asia/Shanghai
+    SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/hzero_admin?useUnicode=true&characterEncoding=utf-8&useSSL=false&useInformationSchema=true&remarks=true&serverTimezone=Asia/Shanghai
     # 数据库用户名
     SPRING_DATASOURCE_USERNAME: choerodon
     # 数据库密码
@@ -125,7 +109,7 @@ readinessProbe:
 ## 资源请求和限制相关配置
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 ##
-resources: 
+resources:
   limits:
     # cpu: 100m
     memory: 2Gi
@@ -151,13 +135,13 @@ service:
   # 指定 service 的 clusterIP
   clusterIP: ~
   # 端口设置
-  ports: 
+  ports:
     # 服务端口
-    http: 
+    http:
       port: 8030
       nodePort: 30092
     # 管理端口
-    actuator: 
+    actuator:
       port: 8031
       nodePort: 30093
   ## externalIPs 设置
