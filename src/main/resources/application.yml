@@ -96,9 +96,6 @@ hzero:
       enabled: ${HZERO_LOV_SQL_ENABLED:true}
     value:
       enabled: ${HZERO_LOV_VALUE_ENABLED:true}
-  data:
-    permission:
-      db-owner: ${HZERO_DB_OWNER:}
   config:
     route:
       skip-parse-services: register, gateway, oauth
