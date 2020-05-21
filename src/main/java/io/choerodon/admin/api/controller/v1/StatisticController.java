@@ -3,6 +3,8 @@ package io.choerodon.admin.api.controller.v1;
 import java.util.List;
 import java.util.Map;
 
+import io.choerodon.admin.infra.config.C7nSwaggerApiConfig;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import io.choerodon.swagger.annotation.Permission;
 /**
  * @author superlee
  */
+@Api(tags = C7nSwaggerApiConfig.CHOERODON_STATISTIC)
 @RestController
 @RequestMapping(value = "/choreodon/v1/statistic")
 public class StatisticController {
