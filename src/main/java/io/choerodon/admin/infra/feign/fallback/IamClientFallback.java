@@ -1,9 +1,15 @@
 package io.choerodon.admin.infra.feign.fallback;
 
 
+import io.choerodon.admin.api.dto.Menu;
+import io.choerodon.core.exception.CommonException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import io.choerodon.admin.infra.feign.IamClient;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * iam service feign失败回调函数
@@ -14,4 +20,8 @@ import io.choerodon.admin.infra.feign.IamClient;
 @Component
 public class IamClientFallback implements IamClient {
 
+    @Override
+    public ResponseEntity<List<Menu>> listMenuByLabel(Set<String> labels) {
+        throw new CommonException("error.query.menu");
+    }
 }

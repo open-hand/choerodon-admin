@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import io.choerodon.admin.api.dto.Menu;
 import org.apache.commons.collections.map.MultiKeyMap;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -99,21 +101,14 @@ public class ApiServiceImpl implements ApiService {
         Map<String, String> menuMap = new HashMap<>();
         if (InvokeCountBusinessType.MENU.equals(businessType)) {
             try {
-                String label;
-                if (ResourceLevel.SITE.value().equals(additionKey)) {
-                    label = MenuLabelEnum.SITE_MENU.value();
-                }
-                if (ResourceLevel.ORGANIZATION.value().equals(additionKey)) {
-                    label = MenuLabelEnum.TENANT_MENU.value();
-                }
-                if (ResourceLevel.PROJECT.value().equals(additionKey)) {
-                    label = MenuLabelEnum.GENERAL_MENU.value();
-                }
-                if (ResourceLevel.USER.value().equals(additionKey)) {
-                    label = MenuLabelEnum.USER_MENU.value();
-                }
-                ResponseEntity<List<>> response = iamClient.listMenuByLabel(label);
-                List<MenuDTO> menus = response.getBody();
+                Set<String> labels = new HashSet<>();
+                labels.add(MenuLabelEnum.SITE_MENU.value());
+                labels.add(MenuLabelEnum.TENANT_MENU.value());
+                labels.add(MenuLabelEnum.GENERAL_MENU.value());
+                labels.add(MenuLabelEnum.USER_MENU.value());
+                labels.add(MenuLabelEnum.KNOWLEDGE_MENU.value());
+                ResponseEntity<List<Menu>> listResponseEntity = iamClient.listMenuByLabel(labels);
+                List<Menu> menus = listResponseEntity.getBody();
                 menus.forEach(m -> menuMap.put(m.getCode(), m.getName()));
             } catch (Exception e) {
                 throw new CommonException(e);

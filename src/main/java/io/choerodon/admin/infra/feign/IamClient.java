@@ -1,10 +1,15 @@
 package io.choerodon.admin.infra.feign;
 
 
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-
+import io.choerodon.admin.api.dto.Menu;
 import io.choerodon.admin.infra.feign.fallback.IamClientFallback;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * iam service feign client
@@ -14,11 +19,7 @@ import io.choerodon.admin.infra.feign.fallback.IamClientFallback;
 @FeignClient(value = "hzero-iam", fallback = IamClientFallback.class)
 public interface IamClient {
 
-    /**
-     * 查询所有菜单
-     * @return
-     */
-    @GetMapping("/v1/menus/list")
-    ResponseEntity<List<MenuDTO>> list();
+    @GetMapping(value = "/menus/flat")
+    ResponseEntity<List<Menu>> listMenuByLabel(@RequestParam(required = false) Set<String> labels);
 
 }

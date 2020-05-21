@@ -1,4 +1,4 @@
-package io.choerodon.manager.app.service.impl;
+package io.choerodon.admin.app.service.impl;
 
 import io.choerodon.admin.api.dto.MenuClickDTO;
 import io.choerodon.admin.app.service.ApiService;
@@ -49,10 +49,14 @@ public class StatisticServiceImpl implements StatisticService {
         });
     }
 
+    private String getCode(String code) {
+        int index = code.lastIndexOf('.');
+        return code.substring(index + 1);
+    }
 
     @Override
     public Map<String, Object> queryMenuClick(String beginDate, String endDate, String code) {
-        return apiService.queryInvokeCount(beginDate, endDate, code, "menu", Collections.emptySet(), InvokeCountBusinessType.MENU);
+        return apiService.queryInvokeCount(beginDate, endDate, getCode(code), "menu", Collections.emptySet(), InvokeCountBusinessType.MENU);
     }
 
     private void cache2Redis(List<MenuClickDTO.Menu> menus, String key) {
