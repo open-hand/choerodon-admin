@@ -188,7 +188,7 @@ service:
   annotations: {}
     # prometheus.io/scrape: 'true'
     # prometheus.io/path: '/actuator/prometheus'
-  # prometheus.io/port: '8031'
+    # prometheus.io/port: '8031'
 
 ## 指标收集
 metrics:
