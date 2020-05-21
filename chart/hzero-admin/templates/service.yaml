@@ -23,6 +23,7 @@ ports:
     protocol: TCP
     name: http
     {{- if and (eq .Values.service.type "NodePort") .Values.service.ports.http.nodePort }}
+    {{- if (eq .Values.service.type "NodePort") .Values.service.ports.http.nodePort }}
     nodePort: {{ .Values.service.ports.http.nodePort }}
     {{- end }}
   - port: {{ .Values.service.ports.actuator.port }}
@@ -30,6 +31,7 @@ ports:
     protocol: TCP
     name: actuator
     {{- if and (eq .Values.service.type "NodePort") .Values.service.ports.actuator.nodePort }}
+    {{- if (eq .Values.service.type "NodePort") .Values.service.ports.actuator.nodePort }}
     nodePort: {{ .Values.service.ports.actuator.nodePort }}
     {{- end }}
   {{- if .Values.service.externalIPs }}

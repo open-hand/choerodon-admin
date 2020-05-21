@@ -80,6 +80,7 @@ livenessProbe:
   failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
   exec:
     command:
+    command:
       - /bin/sh
       - -c
       - >
