@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import io.choerodon.admin.api.dto.Menu;
 import org.apache.commons.collections.map.MultiKeyMap;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -12,12 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import io.choerodon.admin.api.dto.Menu;
 import io.choerodon.admin.app.service.ApiService;
 import io.choerodon.admin.infra.enums.InvokeCountBusinessType;
 import io.choerodon.admin.infra.enums.MenuLabelEnum;
 import io.choerodon.admin.infra.feign.IamClient;
 import io.choerodon.core.exception.CommonException;
-import io.choerodon.core.iam.ResourceLevel;
 
 /**
  * 〈功能简述〉
@@ -30,8 +29,13 @@ import io.choerodon.core.iam.ResourceLevel;
 public class ApiServiceImpl implements ApiService {
     private static final String COLON = ":";
 
-    private StringRedisTemplate redisTemplate;
-    private IamClient iamClient;
+    private final StringRedisTemplate redisTemplate;
+    private final IamClient iamClient;
+
+    public ApiServiceImpl(StringRedisTemplate redisTemplate, IamClient iamClient) {
+        this.redisTemplate = redisTemplate;
+        this.iamClient = iamClient;
+    }
 
     @Override
     public Map<String, Object> queryInvokeCount(String beginDate, String endDate, String additionalKey, String paramKey, Set<String> additionalParamValues, InvokeCountBusinessType businessType) {
