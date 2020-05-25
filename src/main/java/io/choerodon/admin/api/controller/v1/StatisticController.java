@@ -23,7 +23,7 @@ import io.choerodon.swagger.annotation.Permission;
  */
 @Api(tags = C7nSwaggerApiConfig.CHOERODON_STATISTIC)
 @RestController
-@RequestMapping(value = "/choreodon/v1/statistic")
+@RequestMapping(value = "/choerodon/v1/statistic")
 public class StatisticController {
 
     private StatisticService statisticService;
