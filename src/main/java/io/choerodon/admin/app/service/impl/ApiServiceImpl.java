@@ -92,9 +92,9 @@ public class ApiServiceImpl implements ApiService {
                 String code = tuple.getValue();
                 if (menuMap.get(code) != null) {
                     code = code + COLON + menuMap.get(code);
+                    paramValues.add(code);
+                    multiKeyMap.put(key, code, tuple.getScore());
                 }
-                paramValues.add(code);
-                multiKeyMap.put(key, code, tuple.getScore());
             });
             begin = begin.plusDays(1);
         }
