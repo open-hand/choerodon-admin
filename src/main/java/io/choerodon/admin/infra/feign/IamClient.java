@@ -19,7 +19,7 @@ import java.util.Set;
 @FeignClient(value = "hzero-iam", fallback = IamClientFallback.class)
 public interface IamClient {
 
-    @GetMapping(value = "/menus/flat")
+    @GetMapping(value = "/choerodon/v1/menus/flat")
     ResponseEntity<List<Menu>> listMenuByLabel(@RequestParam(required = false) Set<String> labels);
 
 }
