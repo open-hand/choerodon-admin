@@ -92,7 +92,7 @@ spec:
           successThreshold: {{ .Values.readinessProbe.successThreshold }}
           failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           exec:
-            command: 
+            command:
             - /bin/sh
             - -c
             - >
