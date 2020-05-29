@@ -44,7 +44,6 @@ public class StatisticServiceImpl implements StatisticService {
             StringBuilder builder = new StringBuilder();
             builder.append(localDate.toString()).append(COLON).append("zSet").append(COLON).append(code);
             String key = builder.toString();
-
             cache2Redis(menus, key);
         });
     }
