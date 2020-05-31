@@ -105,7 +105,7 @@ hzero:
     route:
       enable: ${HZERO_AUTO_REFRESH_ROUTE_ENABLE:true}
     swagger:
-      enable: ${HZERO_AUTO_REFRESH_SWAGGER_ENABLE:true}
+      enable: ${HZERO_AUTO_REFRESH_SWAGGER_ENABLE:false}
   metric:
     sync:
       enable: ${HZERO_METRIC_SYNC_ENABLE:false}
