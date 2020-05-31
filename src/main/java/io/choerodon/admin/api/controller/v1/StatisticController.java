@@ -32,7 +32,7 @@ public class StatisticController {
         this.statisticService = statisticService;
     }
 
-    @Permission(level = ResourceLevel.SITE)
+    @Permission(permissionLogin = true)
     @ApiOperation("菜单点击次数统计保存接口")
     @PostMapping("/menu_click/save")
     public ResponseEntity saveMenuClick(@RequestBody List<MenuClickDTO> menuClickList) {
