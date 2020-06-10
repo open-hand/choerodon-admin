@@ -3,7 +3,7 @@ preJob:
   # job 超时时间
   timeout: 1200
   # 工具 jar 包镜像库地址
-  image: registry.cn-shanghai.aliyuncs.com/c7n/dbtool:0.6.7
+  image: registry.cn-shanghai.aliyuncs.com/c7n/dbtool:0.7.0
   preInitDB:
     # 是否初始化hzero_admin数据库
     enabled: true
@@ -53,21 +53,18 @@ podLabels: {}
 env:
   open:
     # 本实例服务端口
-    SERVER_PORT: 8030
+    SERVER_PORT: 8060
     # 本实例管理端口
-    MANAGEMENT_SERVER_PORT: 8031
+    MANAGEMENT_SERVER_PORT: 8061
     # 注册服务地址
     EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://register-server:8000/eureka/
-
-    # 网关地址
-    CHOERODON_GATEWAY_URL: http://api.example.com
 
     # Redis 主机地址
     SPRING_REDIS_HOST: localhost
     # Redis 端口
     SPRING_REDIS_PORT: 6379
     # Redis db
-    SPRING_REDIS_DATABASE: 2
+    SPRING_REDIS_DATABASE: 1
     # 资源池中最大连接数
     # 默认8，-1表示无限制；可根据服务并发redis情况及服务端的支持上限调整
     SPRING_REDIS_POOL_MAX_ACTIVE: 50
@@ -119,9 +116,15 @@ env:
     # 日志级别
     LOG_LEVEL: info
     # JVM参数
-    JAVA_OPTS: >-
-      -Xms1024m
-      -Xmx1536m
+#    JAVA_OPTS: >-
+#      -Xms1024m
+#      -Xmx1536m
+    ## Skywalking 配置参数
+    # SKYWALKING_OPTS: >-
+    #   -javaagent:/agent/skywalking-agent.jar
+    #   -Dskywalking.agent.application_code=asgard-service
+    #   -Dskywalking.agent.sample_n_per_3_secs=-1
+    #   -Dskywalking.collector.backend_service=oap.skywalking:11800
 
 
 ## Liveness 和 Readiness 探针相关配置
@@ -171,19 +174,19 @@ service:
   ports:
     # 服务端口
     http:
-      port: 8030
-      nodePort: 30092
+      port: 8060
+      nodePort: 30110
     # 管理端口
     actuator:
-      port: 8031
-      nodePort: 30093
+      port: 8061
+      nodePort: 30111
   ## externalIPs 设置
   # externalIPs:
   #   - externalIp1
   annotations: {}
     # prometheus.io/scrape: 'true'
     # prometheus.io/path: '/actuator/prometheus'
-    # prometheus.io/port: '8031'
+    # prometheus.io/port: '8061'
 
 ## 指标收集
 metrics:

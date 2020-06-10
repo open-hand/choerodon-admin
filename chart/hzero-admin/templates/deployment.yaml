@@ -41,7 +41,7 @@ spec:
       initContainers:
       - name: skywalking-agent
         image: {{ .Values.plugins.skywalkingAgentImage }}
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
         - sh
         - -c
@@ -79,7 +79,7 @@ spec:
           successThreshold: {{ .Values.livenessProbe.successThreshold }}
           failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           exec:
-            command:
+            command: 
             - /bin/sh
             - -c
             - >
@@ -92,7 +92,7 @@ spec:
           successThreshold: {{ .Values.readinessProbe.successThreshold }}
           failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           exec:
-            command:
+            command: 
             - /bin/sh
             - -c
             - >
