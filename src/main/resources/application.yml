@@ -151,7 +151,7 @@ hzero:
     route:
       enable: ${HZERO_AUTO_REFRESH_ROUTE_ENABLE:true}
     swagger:
-      enable: ${HZERO_AUTO_REFRESH_SWAGGER_ENABLE:false}
+      enable: ${HZERO_AUTO_REFRESH_SWAGGER_ENABLE:true}
   # 开启metric同步功能，开启后会收集网关的api请求情况信息并写入db
   metric:
     sync:

@@ -108,7 +108,7 @@ env:
     # 是否自动刷新服务路由
     HZERO_AUTO_REFRESH_ROUTE_ENABLE: true
     # 是否自动刷新服务Swagger文档
-    HZERO_AUTO_REFRESH_SWAGGER_ENABLE: false
+    HZERO_AUTO_REFRESH_SWAGGER_ENABLE: true
     # 是否启用API监控
     HZERO_METRIC_SYNC_ENABLE: false
     # 是否启用TRACE报告
