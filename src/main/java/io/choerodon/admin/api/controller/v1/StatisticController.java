@@ -35,9 +35,9 @@ public class StatisticController {
     @Permission(permissionLogin = true)
     @ApiOperation("菜单点击次数统计保存接口")
     @PostMapping("/menu_click/save")
-    public ResponseEntity saveMenuClick(@RequestBody List<MenuClickDTO> menuClickList) {
+    public ResponseEntity<Void> saveMenuClick(@RequestBody List<MenuClickDTO> menuClickList) {
         statisticService.saveMenuClick(menuClickList);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Permission(level = ResourceLevel.SITE)
@@ -48,7 +48,7 @@ public class StatisticController {
                                                               @RequestParam(value = "end_date")
                                                               @ApiParam(value = "日期格式yyyy-MM-dd", required = true) String endDate,
                                                               @RequestParam String code) {
-        return new ResponseEntity(statisticService.queryMenuClick(beginDate, endDate, code), HttpStatus.OK);
+        return new ResponseEntity<>(statisticService.queryMenuClick(beginDate, endDate, code), HttpStatus.OK);
     }
 
 }
