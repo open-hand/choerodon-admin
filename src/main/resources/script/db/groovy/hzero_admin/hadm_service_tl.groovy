@@ -8,9 +8,6 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_service_tl.groovy') {
         } else if(helper.isOracle()){
             weight = 3
         }
-        if(helper.dbType().isSupportSequence()){
-            createSequence(sequenceName: 'hadm_service_tl_s', startValue:"1")
-        }
         createTable(tableName: "hadm_service_tl", remarks: "") {
             column(name: "service_id", type: "bigint",  remarks: "")  {constraints(nullable:"false")}  
             column(name: "lang", type: "varchar(" + 16 * weight + ")",  remarks: "语言名称")  {constraints(nullable:"false")}  

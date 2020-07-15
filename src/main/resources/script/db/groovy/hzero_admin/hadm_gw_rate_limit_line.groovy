@@ -33,4 +33,14 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_gw_rate_limit_line.groovy') {
         addUniqueConstraint(columnNames:"service_route_id",tableName:"hadm_gw_rate_limit_line",constraintName: "hadm_gw_rate_limit_line_u1")
 
     }
+
+    changeSet(author: "hzero@hand-china.com", id: "2020-06-02-hadm_gw_rate_limit_line") {
+        def weight = 1
+        if(helper.isSqlServer()){
+            weight = 2
+        } else if(helper.isOracle()){
+            weight = 3
+        }
+        modifyDataType(tableName: "hadm_gw_rate_limit_line", columnName: 'rate_limit_dimension', newDataType: "varchar(" + 240 * weight + ")")
+    }
 }

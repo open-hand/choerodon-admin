@@ -15,9 +15,9 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_url_rule.groovy') {
             column(name: "url_rule_id", type: "bigint", autoIncrement: true ,   remarks: "表ID，主键，供其他表做外键")  {constraints(primaryKey: true)}
             column(name: "url_rule_code", type: "varchar(" + 60 * weight + ")",  remarks: "URL映射配置编码")  {constraints(nullable:"false")}
             column(name: "description", type: "varchar(" + 240 * weight + ")",  remarks: "配置描述")
-            column(name: "source_service_id", type: "bigint",  remarks: "来源服务(hadm_service_route.service_id)")
+            column(name: "source_service_code", type: "varchar(" + 60 * weight + ")",  remarks: "来源服务(hadm_service_route.service_code)")
             column(name: "source_url", type: "varchar(" + 240 * weight + ")",  remarks: "来源URL")
-            column(name: "target_service_id", type: "bigint",  remarks: "目标服务(hadm_service_route.service_id)")
+            column(name: "target_service_code", type: "varchar(" + 60 * weight + ")",  remarks: "目标服务(hadm_service_route.service_code)")
             column(name: "target_url", type: "varchar(" + 240 * weight + ")",  remarks: "目标URL")
             column(name: "source_tenant_id", type: "bigint",  remarks: "来源租户ID")
             column(name: "enabled_flag", type: "tinyint",   defaultValue:"0",   remarks: "启用标识")  {constraints(nullable:"false")}
@@ -29,7 +29,7 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_url_rule.groovy') {
 
         }
 
-        addUniqueConstraint(columnNames:"source_service_id,source_url,source_tenant_id",tableName:"hadm_url_rule",constraintName: "hadm_url_rule_u1")
+        addUniqueConstraint(columnNames:"source_service_code,source_url,source_tenant_id",tableName:"hadm_url_rule",constraintName: "hadm_url_rule_u1")
         addUniqueConstraint(columnNames:"url_rule_code",tableName:"hadm_url_rule",constraintName: "hadm_url_rule_u2")
     }
 }
