@@ -23,6 +23,7 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.hzero.boot.platform.lov.annotation.LovValue;
+import org.hzero.starter.keyencrypt.core.Encrypt;
 
 
 @ModifyAudit
@@ -33,10 +34,11 @@ import org.hzero.boot.platform.lov.annotation.LovValue;
     name = "iam_menu"
 )
 public class Menu extends AuditDomain {
-
+    @Encrypt
     @Id
     @GeneratedValue
     private Long id;
+
     @NotNull(
         message = "error.menuCode.null",
         groups = {Menu.Valid.class}
@@ -50,6 +52,7 @@ public class Menu extends AuditDomain {
         max = 255
     )
     private String code;
+
     @NotNull(
         message = "error.menuName.null",
         groups = {Menu.Valid.class}
@@ -59,6 +62,7 @@ public class Menu extends AuditDomain {
         max = 128
     )
     private String name;
+
     @Pattern(
         regexp = "^[a-zA-Z0-9]{0,30}$",
         message = "error.menu.quickIndexIllegal",
@@ -68,6 +72,7 @@ public class Menu extends AuditDomain {
         name = "h_quick_index"
     )
     private String quickIndex;
+
     @NotNull(
         message = "error.menuLevel.null",
         groups = {Menu.Valid.class}
@@ -80,7 +85,10 @@ public class Menu extends AuditDomain {
         groups = {Menu.Valid.class}
     )
     private String level;
+
+    @Encrypt
     private Long parentId;
+
     @NotNull(
         message = "error.menuType.null",
         groups = {Menu.Valid.class}
@@ -89,6 +97,7 @@ public class Menu extends AuditDomain {
         lovCode = "HIAM.MENU_TYPE"
     )
     private String type;
+
     private Integer sort;
     @Range(
         min = 0L,
@@ -96,6 +105,7 @@ public class Menu extends AuditDomain {
         groups = {Menu.Valid.class}
     )
     private Integer isDefault;
+
     private String icon;
     private String route;
     @Range(
@@ -106,6 +116,7 @@ public class Menu extends AuditDomain {
         name = "h_custom_flag"
     )
     private Integer customFlag;
+
     @Column(
         name = "h_tenant_id"
     )
@@ -113,6 +124,7 @@ public class Menu extends AuditDomain {
         message = "error.tenantId.null",
         groups = {Menu.Valid.class}
     )
+    @Encrypt
     private Long tenantId;
     @Range(
         min = 0L,
@@ -166,8 +178,11 @@ public class Menu extends AuditDomain {
     private List<Menu> subMenus;
     @Transient
     private String parentCode;
+
+    @Encrypt
     @Transient
     private Long parentTenantId;
+
     @Transient
     private String zhName;
     @Transient
@@ -184,8 +199,11 @@ public class Menu extends AuditDomain {
     private String createFlag;
     @Transient
     private Integer shieldFlag;
+
+    @Encrypt
     @Transient
     private String secGrpAclId;
+
     @Transient
     private String tenantName;
 
