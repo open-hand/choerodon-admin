@@ -34,4 +34,15 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_api_monitor.groovy') {
 
         addUniqueConstraint(columnNames:"monitor_rule_id,monitor_url,monitor_key",tableName:"hadm_api_monitor",constraintName: "hadm_api_monitor_u1")
     }
+
+    changeSet(author: "hzero@hand-china.com", id: "2020-06-17-hadm_api_monitor"){
+        def weight = 1
+        if(helper.isSqlServer()){
+            weight = 2
+        } else if(helper.isOracle()){
+            weight = 3
+        }
+        modifyDataType(tableName: "hadm_api_monitor", columnName: 'monitor_url', newDataType: "varchar(" + 240 * weight + ")")
+        modifyDataType(tableName: "hadm_api_monitor", columnName: 'monitor_key', newDataType: "varchar(" + 120 * weight + ")")
+    }
 }
