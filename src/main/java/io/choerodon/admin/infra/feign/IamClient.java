@@ -20,6 +20,6 @@ import java.util.Set;
 public interface IamClient {
 
     @GetMapping(value = "/choerodon/v1/menus/flat")
-    ResponseEntity<List<Menu>> listMenuByLabel(@RequestParam(required = false) Set<String> labels);
+    ResponseEntity<List<Menu>> listMenuByLabel(@RequestParam(required = false,value = "labels") Set<String> labels);
 
 }

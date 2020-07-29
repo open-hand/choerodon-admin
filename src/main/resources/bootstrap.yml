@@ -1,10 +1,10 @@
 server:
-  port: 8060
+  port: 8062
   servlet:
     context-path: /hadm
 management:
   server: 
-    port: 8061
+    port: 8063
   endpoints:
     web:
       exposure:
