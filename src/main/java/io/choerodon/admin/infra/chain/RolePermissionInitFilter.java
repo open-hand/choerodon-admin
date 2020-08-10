@@ -49,6 +49,8 @@ public class RolePermissionInitFilter implements InitFilter, Ordered {
             } else {
                 stringRedisTemplate.opsForValue().set(key, "true");
             }
+        } else {
+            LOGGER.info(">>>>>>>>> serviceName:{}, serviceVersion:{} role permission Synced. Skip >>>>>>>>>>>>>>", service.getServiceName(), service.getVersion());
         }
         chain.initNext(chain, context);
     }
