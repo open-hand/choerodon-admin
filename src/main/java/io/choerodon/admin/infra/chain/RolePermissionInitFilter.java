@@ -5,10 +5,10 @@ import org.hzero.admin.domain.vo.InitChainContext;
 import org.hzero.admin.domain.vo.Service;
 import org.hzero.admin.infra.chain.InitChain;
 import org.hzero.admin.infra.chain.InitFilter;
-import org.hzero.core.redis.RedisHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +27,9 @@ public class RolePermissionInitFilter implements InitFilter, Ordered {
 
     private static final String CHOERODON_ROLE_PERMISION_ASYNC_PREFIX = "choerodon:permission:async";
 
+    @Value("${choerodon.role-permission.async: true}")
+    private Boolean asyncRolePermission;
+
     @Autowired
     private IamClient iamClient;
     @Autowired
@@ -37,20 +40,22 @@ public class RolePermissionInitFilter implements InitFilter, Ordered {
 
     @Override
     public void doFilter(InitChain chain, InitChainContext context) {
-        LOGGER.info(">>>>>>>>> do async role permission filter<<<<<<<<<<<<");
-        Service service = context.getService();
-        String key = CHOERODON_ROLE_PERMISION_ASYNC_PREFIX + ":" + service.getServiceName() + ":" + service.getVersion();
-        boolean notAsyncFlag = StringUtils.isEmpty(stringRedisTemplate.opsForValue().get(key));
-        if (notAsyncFlag) {
-            LOGGER.info(">>>>>>>>> start async role permission. serviceName:{}, serviceVersion:{} >>>>>>>>>>>>>>", service.getServiceName(), service.getVersion());
-            ResponseEntity<Void> response = iamClient.asyncRolePermision();
-            if (!response.getStatusCode().is2xxSuccessful()) {
-                LOGGER.error("refresh role permission failed, cause: " + (response.getBody() == null ? response.getStatusCodeValue() : response.getBody()));
+        if (Boolean.TRUE.equals(asyncRolePermission)) {
+            LOGGER.info(">>>>>>>>> do async role permission filter<<<<<<<<<<<<");
+            Service service = context.getService();
+            String key = CHOERODON_ROLE_PERMISION_ASYNC_PREFIX + ":" + service.getServiceName() + ":" + service.getVersion();
+            boolean notAsyncFlag = StringUtils.isEmpty(stringRedisTemplate.opsForValue().get(key));
+            if (notAsyncFlag) {
+                LOGGER.info(">>>>>>>>> start async role permission. serviceName:{}, serviceVersion:{} >>>>>>>>>>>>>>", service.getServiceName(), service.getVersion());
+                ResponseEntity<Void> response = iamClient.asyncRolePermision();
+                if (!response.getStatusCode().is2xxSuccessful()) {
+                    LOGGER.error("refresh role permission failed, cause: " + (response.getBody() == null ? response.getStatusCodeValue() : response.getBody()));
+                } else {
+                    stringRedisTemplate.opsForValue().set(key, "true");
+                }
             } else {
-                stringRedisTemplate.opsForValue().set(key, "true");
+                LOGGER.info(">>>>>>>>> serviceName:{}, serviceVersion:{} role permission Synced. Skip >>>>>>>>>>>>>>", service.getServiceName(), service.getVersion());
             }
-        } else {
-            LOGGER.info(">>>>>>>>> serviceName:{}, serviceVersion:{} role permission Synced. Skip >>>>>>>>>>>>>>", service.getServiceName(), service.getVersion());
         }
         chain.initNext(chain, context);
     }
