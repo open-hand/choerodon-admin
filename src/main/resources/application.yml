@@ -142,6 +142,10 @@ mybatis:
       meta-provider-redis-db: ${SPRING_REDIS_DATABASE:1}
       meta-provider-redis-refresh-interval: 540000
       meta-provider-redis-expire: 600000
+# 服务启动时，是否同步父子角色权限
+choerodon:
+  role-permission:
+    async: true
 
 hzero:
   service:
