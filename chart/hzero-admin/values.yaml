@@ -111,6 +111,8 @@ env:
     HZERO_METRIC_SYNC_ENABLE: false
     # 是否启用TRACE报告
     HZERO_TRACE_REDIS_REPORTER_ENABLE: false
+    # 服务启动时，是否同步父子角色权限
+    CHOERODON_ROLE_PERMISSION_ASYNC: true
     # 日志级别
     LOG_LEVEL: info
     # JVM参数
