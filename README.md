@@ -1,51 +1,60 @@
-## 使用说明
-### 概述
+# choerodon-admin
+平台治理服务
 
+## Introduction
+平台治理服务，提供自动化的路由刷新、权限刷新、swagger信息刷新功能，提供界面化的服务、配置、路由、限流、熔断管理功能以及Spring Boot Admin控制台。
+此服务是对[hzero-admin](https://github.com/open-hand/hzero-admin.git)的二开，添加了菜单统计的功能。
 
-管理服务，基础服务之一，把路由、限流、熔断等功能易用化，集中在管理服务来管控，提供自动化的路由刷新、权限刷新、swagger信息刷新服务，提供界面化的服务、配置、路由、限流、熔断管理功能以及Spring Boot Admin控制台。
+## Documentation
+- 更多详情请参考`hzero-admin`[中文文档](http://open.hand-china.com/document-center/doc/application/10041/10148?doc_id=5133)
 
-## 服务配置 
+## Features
 
-- `application.yml`
-```
-hzero:
-  # Deprecated replace by hzero.auto-refresh.permission.enable
-  # permission:
-    # 是否自动刷新服务权限
-    # parse-permission: ${HZERO_PERMISSION_PARSE_PERMISSION:true}
-  config:
-    # 跳过特定服务的路由刷新
-    route:
-      skip-parse-services: register, gateway, oauth
-  auto-refresh:
-    # 是否开启权限自动刷新
-    permisson:
-      enable: ${HZERO_AUTO_REFRESH_PERMISSION_ENABLE:true}
-    # 是否开启路由自动刷新
-    route:
-      enable: ${HZERO_AUTO_REFRESH_ROUTE_ENABLE:true}
-    # 是否开启swagger信息自动刷新
-    swagger:
-      enable: ${HZERO_AUTO_REFRESH_SWAGGER_ENABLE:true}
+- 服务管理：统一管理系统所有服务
+- 服务配置：维护服务配置信息
+- 服务治理：配置管理服务的熔断、限流与在线运维等
+- 服务监控：提供API统计与服务实例监控
 
-```
-- `启动类配置`
+## Architecture
 
-@EnableHZeroAdmin是必须加上的注解，用于驱动管理服务的自动配置类，从而启用管理服务功能。
+![](http://file.open.hand-china.com/hsop-image/doc_classify/0/b8a7b8d8053446589d46f497959e21a7/Admin%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%9B%BE.png)
 
-@EnableDiscoveryClient使服务作为服务发现客户端注册到注册中心，推荐使用@EnableDiscoveryClient而不是@EnableEurekaClient，@EnableDiscoveryClient更加灵活。
+## Dependencies
 
-另外，通过@SpringBootApplication启动Spring Boot自动配置类，启动Spring Boot应用。
-```
-@EnableHZeroAdmin
-@EnableDiscoveryClient
-@SpringBootApplication
-public class HzeroAdminApplication {
+* 服务依赖
 
-    public static void main(String[] args) {
-        SpringApplication.run(HzeroAdminApplication.class, args);
-    }
-}
+```xml
+<dependency>
+    <groupId>org.hzero</groupId>
+    <artifactId>hzero-admin-saas</artifactId>
+    <version>${hzero.service.version}</version>
+</dependency>
 ```
 
+## Data initialization
 
+- 创建数据库，本地创建 `hzero_admin` 数据库和默认用户，示例如下：
+
+  ```sql
+  CREATE USER 'choerodon'@'%' IDENTIFIED BY "123456";
+  CREATE DATABASE hzero_admin DEFAULT CHARACTER SET utf8;
+  GRANT ALL PRIVILEGES ON hzero_admin.* TO choerodon@'%';
+  FLUSH PRIVILEGES;
+  ```
+
+- 初始化 `hzero_admin` 数据库，运行项目根目录下的 `init-database.sh`，该脚本默认初始化数据库的地址为 `localhost`，若有变更需要修改脚本文件
+
+  ```sh
+  sh init-database.sh
+  ```
+  
+## Changelog
+
+- [更新日志](./CHANGELOG.zh-CN.md)
+
+
+## Contributing
+
+欢迎参与项目贡献！比如提交PR修复一个bug，或者新建Issue讨论新特性或者变更。
+
+Copyright (c) 2020-present, CHOERODON
