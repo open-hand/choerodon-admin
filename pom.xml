@@ -8,9 +8,9 @@
         <version>0.17.1.RELEASE</version>
     </parent>
 
-    <artifactId>hzero-admin</artifactId>
-    <version>0.23.0.RELEASE</version>
-    <name>hzero-admin</name>
+    <artifactId>choerodon-admin</artifactId>
+    <version>0.23.1-SNAPSHOT</version>
+    <name>choerodon-admin</name>
 
     <dependencies>
         <dependency>

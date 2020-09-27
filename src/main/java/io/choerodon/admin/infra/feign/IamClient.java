@@ -16,7 +16,7 @@ import java.util.Set;
  * @author superlee
  * @since 2019-06-11
  */
-@FeignClient(value = "hzero-iam", fallback = IamClientFallback.class)
+@FeignClient(value = "choerodon-iam", fallback = IamClientFallback.class)
 public interface IamClient {
 
     @GetMapping(value = "/choerodon/v1/menus/flat")
