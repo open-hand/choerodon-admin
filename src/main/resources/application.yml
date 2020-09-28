@@ -150,7 +150,7 @@ hzero:
     oauth:
       name: choerodon-oauth
     iam:
-      name: choerdon-iam
+      name: choerodon-iam
     file:
       name: choerodon-file
     message:
