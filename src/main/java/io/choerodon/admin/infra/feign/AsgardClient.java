@@ -12,7 +12,7 @@ import io.choerodon.admin.infra.feign.fallback.AsgardClientFallback;
  * @date 2020/7/16
  * @description
  */
-@FeignClient(value = "hzero-asgard", fallback = AsgardClientFallback.class)
+@FeignClient(value = "choerodon-asgard", fallback = AsgardClientFallback.class)
 public interface AsgardClient {
     @PostMapping(value = "/v1/sagas/fresh")
     ResponseEntity<Void> refresh(@RequestParam("serviceName") String serviceName);
