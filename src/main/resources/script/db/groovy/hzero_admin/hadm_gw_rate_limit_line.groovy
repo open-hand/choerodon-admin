@@ -31,7 +31,6 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_gw_rate_limit_line.groovy') {
             column(name: "rate_limit_id")
         }
         addUniqueConstraint(columnNames:"service_route_id",tableName:"hadm_gw_rate_limit_line",constraintName: "hadm_gw_rate_limit_line_u1")
-
     }
 
     changeSet(author: "hzero@hand-china.com", id: "2020-06-02-hadm_gw_rate_limit_line") {
