@@ -29,4 +29,8 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_service_version.groovy') {
 
         addUniqueConstraint(columnNames:"service_id,version_number",tableName:"hadm_service_version",constraintName: "hadm_service_version_u1")
     }
+    changeSet(author: 'wanghao', id: '2020-11-4-modify-type') {
+        modifyDataType(tableName: 'hadm_service_version', columnName: 'meta_version', newDataType: 'VARCHAR(60)')
+
+    }
 }
