@@ -1,14 +1,21 @@
 package io.choerodon.admin.app.service.impl;
 
+import io.choerodon.admin.api.dto.CiCdPipelineRecordVO;
+import io.choerodon.admin.api.dto.DevopsCdJobRecordDTO;
 import io.choerodon.admin.api.dto.MenuClickDTO;
 import io.choerodon.admin.app.service.ApiService;
 import io.choerodon.admin.app.service.StatisticService;
 import io.choerodon.admin.infra.enums.InvokeCountBusinessType;
 import io.choerodon.core.exception.CommonException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -23,6 +30,10 @@ public class StatisticServiceImpl implements StatisticService {
     private StringRedisTemplate redisTemplate;
 
     private ApiService apiService;
+
+    @Autowired
+    @Qualifier("restTemplateForIp")
+    private RestTemplate restTemplate;
 
     private static final String COLON = ":";
 
@@ -56,6 +67,36 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public Map<String, Object> queryMenuClick(String beginDate, String endDate, String code) {
         return apiService.queryInvokeCount(beginDate, endDate, getCode(code), "menu", Collections.emptySet(), InvokeCountBusinessType.MENU);
+    }
+
+    @Override
+    public void auidt(CiCdPipelineRecordVO devopsPipelineVO) {
+        DevopsCdJobRecordDTO currentCdJob = devopsPipelineVO.getCurrentCdJob();
+
+        try {
+            Thread.sleep(1000 * 60 * 5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        Map<String, String> map = new HashMap<>();
+        map.put("pipeline_record_id",devopsPipelineVO.getCdRecordId().toString());
+        map.put("stage_record_id",currentCdJob.getStageRecordId().toString());
+        map.put("job_record_id",currentCdJob.getId().toString());
+        map.put("callback_token",currentCdJob.getCallbackToken());
+        map.put("approval_status",devopsPipelineVO.getCdRecordId() % 2 == 0 ? "true" : "false");
+
+
+        ResponseEntity<Void> responseEntity = null;
+        try {
+            restTemplate.put("http://172.23.16.92:30094/devops/v1/cd_pipeline/external_approval_task/callback_url", map);
+            if (!responseEntity.getStatusCode().is2xxSuccessful()) {
+                throw new RestClientException("error.trigger.external.approval.task");
+            }
+        } catch (RestClientException e) {
+        }
+
     }
 
     private void cache2Redis(List<MenuClickDTO.Menu> menus, String key) {
