@@ -22,7 +22,7 @@ import io.choerodon.swagger.annotation.Permission;
  * @since 2021/1/14 10:34
  */
 @RestController
-@RequestMapping("/choerodon/v1/services")
+@RequestMapping(value = "/choerodon/v1/services")
 public class ServiceController {
 
     @Autowired
