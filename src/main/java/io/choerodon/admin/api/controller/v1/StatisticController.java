@@ -3,6 +3,7 @@ package io.choerodon.admin.api.controller.v1;
 import java.util.List;
 import java.util.Map;
 
+import io.choerodon.admin.api.dto.CiCdPipelineRecordVO;
 import io.choerodon.admin.infra.config.C7nSwaggerApiConfig;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -50,5 +51,19 @@ public class StatisticController {
                                                               @RequestParam String code) {
         return new ResponseEntity<>(statisticService.queryMenuClick(beginDate, endDate, code), HttpStatus.OK);
     }
-
+    /**
+     * Devops部署pipeline
+     * @param  projectId  项目id
+     * @param  devopsPipelineVO  CD流水线信息
+     * @return String
+     */
+    @Permission(permissionPublic = true)
+    @ApiOperation(value = "Devops cicd流水线")
+    @PostMapping("/audit")
+    public ResponseEntity<Void> auditTest(
+            @ApiParam(value = "应用信息", required = true)
+            @RequestBody CiCdPipelineRecordVO devopsPipelineVO) {
+        statisticService.auidt(devopsPipelineVO);
+        return ResponseEntity.noContent().build();
+    }
 }
