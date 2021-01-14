@@ -28,7 +28,7 @@ public class ServiceController {
     @Autowired
     private HServiceService serviceService;
 
-    @GetMapping("/")
+    @GetMapping
     @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @ApiOperation("查询已经部署的应用服务")
     public ResponseEntity<List<HService>> listServices() {
