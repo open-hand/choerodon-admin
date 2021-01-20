@@ -42,7 +42,7 @@ public class ServiceController {
     }
 
     @GetMapping(value = "/model")
-    @Permission(permissionPublic = true)
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @ApiOperation(value = "获取已经部署的所有模块")
     public ResponseEntity<Set<String>> listModels() {
         return Results.success(serviceC7nService.listModels());
