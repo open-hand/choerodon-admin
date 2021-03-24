@@ -33,4 +33,8 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_gw_rate_limit_dim.groovy') {
         }
 
     }
+
+    changeSet(author: "Admin@hand-china.com", id: "hadm_gw_rate_limit_dim-2021-02-24-version-2") {
+        dropNotNullConstraint (tableName: "hadm_gw_rate_limit_dim", columnName: "replenish_rate", columnDataType: "int")
+    }
 }

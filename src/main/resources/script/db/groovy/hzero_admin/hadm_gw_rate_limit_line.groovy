@@ -42,4 +42,10 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_gw_rate_limit_line.groovy') {
         }
         modifyDataType(tableName: "hadm_gw_rate_limit_line", columnName: 'rate_limit_dimension', newDataType: "varchar(" + 240 * weight + ")")
     }
+
+    changeSet(author: "Admin@hand-china.com", id: "hadm_gw_rate_limit_line-2021-02-24-version-2") {
+        dropNotNullConstraint (tableName: "hadm_gw_rate_limit_line", columnName: "replenish_rate", columnDataType: "int")
+        dropNotNullConstraint (tableName: "hadm_gw_rate_limit_line", columnName: "service_route_id", columnDataType: "bigint")
+        dropUniqueConstraint (tableName: "hadm_gw_rate_limit_line", constraintName: "hadm_gw_rate_limit_line_u1")
+    }
 }

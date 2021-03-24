@@ -15,4 +15,8 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_service_tl.groovy') {
         }
 
     }
+
+    changeSet(author: "hzero@hand-china.com", id: "2020-12-15-hadm_service_tl") {
+        addUniqueConstraint(columnNames: "service_id, lang", tableName: "hadm_service_tl", constraintName: "hadm_service_tl_u1")
+    }
 }
