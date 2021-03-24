@@ -38,4 +38,10 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_market_config.groovy') {
             }
         }
     }
+
+    changeSet(author: "hzero@hand-china.com", id: "2020-09-15-hadm_market_config_add-column-feedback") {
+        addColumn(tableName: 'hadm_market_config') {
+            column(name: "feedback_flag", type: "tinyint", remarks: "是否显示问题反馈", afterColumn: 'icon_flag')
+        }
+    }
 }
