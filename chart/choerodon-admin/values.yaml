@@ -3,16 +3,15 @@ preJob:
   # job 超时时间
   timeout: 1200
   # 工具 jar 包镜像库地址
-  image: registry.cn-shanghai.aliyuncs.com/c7n/dbtool:0.7.1
+  image: registry.cn-shanghai.aliyuncs.com/c7n/dbtool:0.8.0
   preInitDB:
     # 是否初始化本服务数据库
     enabled: true
     datasource:
-      # 本服务数据库相关信息
-      url: jdbc:mysql://localhost:3306/?useUnicode=true&characterEncoding=utf-8&useSSL=false&useInformationSchema=true&remarks=true&serverTimezone=Asia/Shanghai
+      # 本服务数据库相关信息，端口号结尾，不要加/或者数据库名
+      url: jdbc:mysql://localhost:3306?useUnicode=true&characterEncoding=utf-8&useSSL=false&useInformationSchema=true&remarks=true&serverTimezone=Asia/Shanghai
       username: username
       password: password
-      driver: com.mysql.jdbc.Driver
 
 ## 实例运行数量
 replicaCount: 1
@@ -95,12 +94,23 @@ env:
     # 每块buffer的空间大小，越小空间被利用越充分
     # 不要设置太大，以免影响其他应用，合适即可
     SERVER_UNDERTOW_BUFFER_SIZE: 1024
-    # Hystrix 熔断超时时间
-    HYSTRIX_COMMAND_TIMEOUT_IN_MILLISECONDS: 40000
-    # Ribbon 读取超时时间
-    RIBBON_READ_TIMEOUT: 30000
-    # Ribbon 连接超时时间
-    RIBBON_CONNECT_TIMEOUT: 3000
+    # hystrix熔断时间，12秒，需大于feign/ribbon的超时时间
+    # 默认 1000 毫秒，最高设置 2000足矣。如果超时，首先看能不能优化接口相关业务、SQL查询等，不要盲目加大超时时间，否则会导致线程堆积过多，hystrix 线程池卡死，最终服务不可用。
+    HYSTRIX_COMMAND_TIMEOUT_IN_MILLISECONDS: 12000
+    # 执行命令线程池的核心线程数，也是命令执行的最大并发量，默认10
+    HYSTRIX_THREADPOOL_DEFAULT_CORE_SIZE: 128
+    # 最大执行线程数
+    HYSTRIX_THREADPOOL_DEFAULT_MAXIMUM_SIZE: 256
+    # Ribbon从DiscoveryClient同步Server的间隔时间，默认30秒
+    RIBBON_SERVER_LIST_REFRESH_INTERVAL: 10000
+    # 客户端读取超时时间，超时时间要小于Hystrix的超时时间，否则重试机制就无意义了
+    RIBBON_READ_TIMEOUT: 5000
+    # 客户端连接超时时间
+    RIBBON_CONNECT_TIMEOUT: 2000
+    # 续约间隔时间，默认30秒
+    EUREKA_INSTANCE_LEASE_RENEWAL_INTERVAL_IN_SECONDS: 30
+    # 实例故障摘除时间，默认90秒，实际是90*2=180秒，配置45就是90秒
+    EUREKA_INSTANCE_LEASE_EXPIRATION_DURATION_IN_SECONDS: 45
     # 是否自动刷新服务权限
     HZERO_AUTO_REFRESH_PERMISSION_ENABLE: true
     # 是否自动刷新服务路由
