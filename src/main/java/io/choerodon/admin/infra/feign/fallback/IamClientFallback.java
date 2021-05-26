@@ -29,4 +29,9 @@ public class IamClientFallback implements IamClient {
     public ResponseEntity<Void> asyncRolePermision() {
         throw new CommonException("error.async.role.permission");
     }
+
+    @Override
+    public ResponseEntity<Void> fixMenuLevelPath() {
+        throw new CommonException("error.fix.menu.levelPath");
+    }
 }
