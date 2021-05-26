@@ -26,4 +26,7 @@ public interface IamClient {
     @PutMapping(value = "/choerodon/v1/permission/role_permission_async")
     ResponseEntity<Void> asyncRolePermision();
 
+    @PutMapping("/choerodon/v1/fix/menu_level_path")
+    ResponseEntity<Void> fixMenuLevelPath();
+
 }
