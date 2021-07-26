@@ -17,4 +17,5 @@ public class ServerConstants {
     public static final String TEST = "test";
     public static final String DEVOPS = "devops";
     public static final String AGILE = "agile";
+    public static final String RESOURCE_MANAGEMENT = "resource-management";
 }
