@@ -29,7 +29,10 @@ public class ServiceC7nServiceImpl implements ServiceC7nService {
             String serviceCode = t.getServiceCode();
             if (serviceCode.equals(SERVER_AGILE)) {
                 services.add(AGILE);
-            } else if (serviceCode.equals(SERVER_DEVOPS) || serviceCode.equals(SERVER_GITLAB) || serviceCode.equals(SERVER_WORKFLOW)
+            } else if (serviceCode.equals(SERVER_DEVOPS)) {
+                services.add(DEVOPS);
+                services.add(RESOURCE_MANAGEMENT);
+            } else if (serviceCode.equals(SERVER_GITLAB) || serviceCode.equals(SERVER_WORKFLOW)
                     || serviceCode.equals(SERVER_CODE) || serviceCode.equals(SERVER_PROD)) {
                 services.add(DEVOPS);
             } else if (serviceCode.equals(SERVER_TEST)) {
