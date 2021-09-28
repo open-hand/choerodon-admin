@@ -1,7 +1,5 @@
 server:
   port: 8062
-  servlet:
-    context-path: /hadm
 management:
   server: 
     port: 8063
