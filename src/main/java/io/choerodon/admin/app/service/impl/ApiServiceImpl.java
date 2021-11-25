@@ -38,7 +38,13 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
-    public Map<String, Object> queryInvokeCount(String beginDate, String endDate, String additionalKey, String paramKey, Set<String> additionalParamValues, InvokeCountBusinessType businessType) {
+    public Map<String, Object> queryInvokeCount(String beginDate,
+                                                String endDate,
+                                                String code,
+                                                String menuLevel,
+                                                String paramKey,
+                                                Set<String> additionalParamValues,
+                                                InvokeCountBusinessType businessType) {
         Map<String, Object> map = new HashMap<>();
         Set<String> date = new LinkedHashSet<>();
         List<Map<String, Object>> details = new ArrayList<>();
@@ -48,7 +54,7 @@ public class ApiServiceImpl implements ApiService {
         LocalDate end = LocalDate.parse(endDate);
         Set<String> paramValues = new HashSet<>();
         paramValues.addAll(additionalParamValues);
-        MultiKeyMap multiKeyMap = getInvokeCount(paramValues, date, begin, end, additionalKey, businessType);
+        MultiKeyMap multiKeyMap = getInvokeCount(paramValues, date, code, begin, end, menuLevel, businessType);
         Map<String, Double> lastDayCount = new HashMap<>();
         paramValues.forEach(paramValue -> {
             Map<String, Object> apiMap = new HashMap<>(2);
@@ -56,7 +62,7 @@ public class ApiServiceImpl implements ApiService {
             apiMap.put(paramKey, paramValue);
             apiMap.put("data", data);
             date.forEach(currentDate -> {
-                String key = getKeyByDateAndAdditionKey(additionalKey, currentDate);
+                String key = getKeyByDateAndAdditionKey(menuLevel, currentDate);
                 Object value = multiKeyMap.get(key, paramValue);
                 Double count = (value == null ? 0D : (Double) value);
                 lastDayCount.put(paramValue, count);
@@ -75,10 +81,14 @@ public class ApiServiceImpl implements ApiService {
         return map;
     }
 
-    private MultiKeyMap getInvokeCount(Set<String> paramValues, Set<String> date,
-                                       LocalDate begin, LocalDate end, String additionKey,
+    private MultiKeyMap getInvokeCount(Set<String> paramValues,
+                                       Set<String> date,
+                                       String levelCode,
+                                       LocalDate begin,
+                                       LocalDate end,
+                                       String additionKey,
                                        InvokeCountBusinessType businessType) {
-        Map<String, String> menuMap = getMenuMap(businessType,additionKey);
+        Map<String, String> menuMap = getMenuMap(levelCode);
         MultiKeyMap multiKeyMap = new MultiKeyMap();
         if (begin.isAfter(end)) {
             throw new CommonException("error.date.order");
@@ -101,22 +111,14 @@ public class ApiServiceImpl implements ApiService {
         return multiKeyMap;
     }
 
-    private Map<String, String> getMenuMap(InvokeCountBusinessType businessType, String additionKey) {
+    private Map<String, String> getMenuMap(String code) {
         Map<String, String> menuMap = new HashMap<>();
-        if (InvokeCountBusinessType.MENU.equals(businessType)) {
-            try {
-                Set<String> labels = new HashSet<>();
-                labels.add(MenuLabelEnum.SITE_MENU.value());
-                labels.add(MenuLabelEnum.TENANT_MENU.value());
-                labels.add(MenuLabelEnum.GENERAL_MENU.value());
-                labels.add(MenuLabelEnum.USER_MENU.value());
-                labels.add(MenuLabelEnum.KNOWLEDGE_MENU.value());
-                ResponseEntity<List<Menu>> listResponseEntity = iamClient.listMenuByLabel(labels);
-                List<Menu> menus = listResponseEntity.getBody();
-                menus.forEach(m -> menuMap.put(m.getCode(), m.getName()));
-            } catch (Exception e) {
-                throw new CommonException(e);
-            }
+        try {
+            ResponseEntity<List<Menu>> listResponseEntity = iamClient.listMenuByLevelCode(code);
+            List<Menu> menus = listResponseEntity.getBody();
+            menus.forEach(m -> menuMap.put(m.getCode(), m.getName()));
+        } catch (Exception e) {
+            throw new CommonException(e);
         }
         return menuMap;
     }
