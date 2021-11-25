@@ -26,6 +26,11 @@ public class IamClientFallback implements IamClient {
     }
 
     @Override
+    public ResponseEntity<List<Menu>> listMenuByLevelCode(String code) {
+        throw new CommonException("error.query.menu");
+    }
+
+    @Override
     public ResponseEntity<Void> asyncRolePermision() {
         throw new CommonException("error.async.role.permission");
     }
