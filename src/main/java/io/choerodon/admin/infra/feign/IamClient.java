@@ -23,6 +23,9 @@ public interface IamClient {
     @GetMapping(value = "/choerodon/v1/menus/flat")
     ResponseEntity<List<Menu>> listMenuByLabel(@RequestParam(required = false,value = "labels") Set<String> labels);
 
+    @GetMapping(value = "/choerodon/v1/menus/menu_config")
+    ResponseEntity<List<Menu>> listMenuByLevelCode(@RequestParam(value = "code") String code);
+
     @PutMapping(value = "/choerodon/v1/permission/role_permission_async")
     ResponseEntity<Void> asyncRolePermision();
 

@@ -18,12 +18,18 @@ public interface ApiService {
      *
      * @param beginDate             开始日期
      * @param endDate               结束日期
-     * @param additionalKey         和日期拼接的额外的key
+     * @param menuLevel         和日期拼接的额外的key
      * @param paramKey              api或者service集合的参数名
      * @param additionalParamValues 额外的paramValues
      * @param businessType          业务类型
      * @return map
      */
-    Map<String, Object> queryInvokeCount(String beginDate, String endDate, String additionalKey, String paramKey, Set<String> additionalParamValues, InvokeCountBusinessType businessType);
+    Map<String, Object> queryInvokeCount(String beginDate,
+                                         String endDate,
+                                         String code,
+                                         String menuLevel,
+                                         String paramKey,
+                                         Set<String> additionalParamValues,
+                                         InvokeCountBusinessType businessType);
 
 }

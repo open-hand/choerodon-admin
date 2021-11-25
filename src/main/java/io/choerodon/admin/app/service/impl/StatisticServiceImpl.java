@@ -66,7 +66,13 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public Map<String, Object> queryMenuClick(String beginDate, String endDate, String code) {
-        return apiService.queryInvokeCount(beginDate, endDate, getCode(code), "menu", Collections.emptySet(), InvokeCountBusinessType.MENU);
+        return apiService.queryInvokeCount(beginDate,
+                endDate,
+                code,
+                getCode(code),
+                "menu",
+                Collections.emptySet(),
+                InvokeCountBusinessType.MENU);
     }
 
     @Override
