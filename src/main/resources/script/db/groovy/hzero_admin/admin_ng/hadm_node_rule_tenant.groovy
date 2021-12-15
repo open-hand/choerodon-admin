@@ -26,4 +26,10 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_node_rule_tenant.groovy') {
         }
 
     }
+    changeSet(author: "hzero@hand-china.com", id: "hadm_node_rule_tenant-2021-07-08-version-2") {
+        createIndex (tableName: "hadm_node_rule_tenant", indexName: "hadm_node_rule_tenant_n1") {
+            column (name: "node_rule_id")
+            column (name: "tenant_id")
+        }
+    }
 }
