@@ -32,4 +32,20 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_url_rule.groovy') {
         addUniqueConstraint(columnNames:"source_service_code,source_url,source_tenant_id",tableName:"hadm_url_rule",constraintName: "hadm_url_rule_u1")
         addUniqueConstraint(columnNames:"url_rule_code",tableName:"hadm_url_rule",constraintName: "hadm_url_rule_u2")
     }
+
+    changeSet(author: "hzero", id: "2021-06-29-hadm_url_rule") {
+        addColumn(tableName: 'hadm_url_rule') {
+            column(name: "source_request_parameter", type: "varchar(480)", remarks: "来源请求参数")  {constraints(nullable:"true")}
+        }
+        addColumn(tableName: 'hadm_url_rule') {
+            column(name: "source_request_header", type: "varchar(480)", remarks: "来源请求头")  {constraints(nullable:"true")}
+        }
+        addColumn(tableName: 'hadm_url_rule') {
+            column(name: "order_seq", type: "int", defaultValue: "1", remarks: "优先级")  {constraints(nullable:"false")}
+        }
+    }
+
+    changeSet(author: 'hzero@hand-china.com', id: '2021-07-05-hadm_url_rule') {
+        dropUniqueConstraint(tableName:"hadm_url_rule", constraintName: "hadm_url_rule_u1")
+    }
 }

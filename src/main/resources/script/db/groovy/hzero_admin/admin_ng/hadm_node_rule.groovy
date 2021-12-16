@@ -26,4 +26,18 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_node_rule.groovy') {
         }
 
     }
+
+    changeSet(author: "hzero", id: "2021-06-29-hadm_node_rule") {
+        addColumn(tableName: 'hadm_node_rule') {
+            column(name: "overall_tenant_flag", type: "tinyint", defaultValue: "0", remarks: "是否应用到所有租户")  {constraints(nullable:"false")}
+        }
+        addColumn(tableName: 'hadm_node_rule') {
+            column(name: "overall_service_flag", type: "tinyint", defaultValue: "0", remarks: "是否应用到所有服务")  {constraints(nullable:"false")}
+        }
+    }
+    changeSet(author: "hzero@hand-china.com", id: "hadm_node_rule-2021-07-08-version-3") {
+        createIndex (tableName: "hadm_node_rule", indexName: "hadm_node_rule_n1") {
+            column (name: "rule_code")
+        }
+    }
 }
