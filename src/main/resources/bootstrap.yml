@@ -49,7 +49,6 @@ eureka:
     # 服务的一些元数据信息k
     metadata-map:
       VERSION: ${CHART_VERSION:0.24.0-alpha.4.RELEASE}
-      CONTEXT: /hadm
   client:
     serviceUrl:
       # 注册中心地址
