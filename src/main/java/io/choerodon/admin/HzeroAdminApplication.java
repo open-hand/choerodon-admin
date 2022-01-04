@@ -13,8 +13,13 @@ import org.springframework.web.client.RestTemplate;
 public class HzeroAdminApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HzeroAdminApplication.class, args);
+        try {
+            SpringApplication.run(HzeroAdminApplication.class, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     @Bean(name = "restTemplateForIp")
     public RestTemplate restTemplateForIp() {
         return new RestTemplate();

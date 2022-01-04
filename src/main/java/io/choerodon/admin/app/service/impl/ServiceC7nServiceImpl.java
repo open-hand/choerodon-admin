@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hzero.admin.app.service.HServiceService;
+import org.hzero.admin.domain.entity.HService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +26,14 @@ public class ServiceC7nServiceImpl implements ServiceC7nService {
     @Override
     public Set<String> listModels() {
         Set<String> services = new HashSet<>();
-        serviceService.selectServices(null).forEach(t -> {
+        serviceService.selectServices(new HService()).forEach(t -> {
             String serviceCode = t.getServiceCode();
             if (serviceCode.equals(SERVER_AGILE)) {
                 services.add(AGILE);
-            } else if (serviceCode.equals(SERVER_DEVOPS) || serviceCode.equals(SERVER_GITLAB) || serviceCode.equals(SERVER_WORKFLOW)
+            } else if (serviceCode.equals(SERVER_DEVOPS)) {
+                services.add(DEVOPS);
+                services.add(RESOURCE_MANAGEMENT);
+            } else if (serviceCode.equals(SERVER_GITLAB) || serviceCode.equals(SERVER_WORKFLOW)
                     || serviceCode.equals(SERVER_CODE) || serviceCode.equals(SERVER_PROD)) {
                 services.add(DEVOPS);
             } else if (serviceCode.equals(SERVER_TEST)) {

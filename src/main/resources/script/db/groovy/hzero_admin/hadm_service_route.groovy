@@ -52,4 +52,13 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_service_route.groovy') {
         addUniqueConstraint(columnNames: "path", tableName: "hadm_service_route", constraintName: "hadm_service_route_u2")
     }
 
+    changeSet(author: "hzero@hand-china.com", id: "2021-04-08-hadm_service_route") {
+        if(helper.isSqlServer()){
+            sql {
+                "ALTER TABLE hadm_service_route DROP CONSTRAINT DF_hadm_service_route_strip_prefix";
+            }
+        }
+        modifyDataType(tableName: "hadm_service_route", columnName: 'strip_prefix', newDataType: "int")
+    }
+
 }

@@ -1,6 +1,12 @@
 package script.db
-
 databaseChangeLog(logicalFilePath: 'script/db/hadm_gw_rate_limit_dim.groovy') {
+    def weight_c = 1
+    if(helper.isOracle()){
+        weight_c = 2
+    }
+    if(helper.isOracle()){
+        weight_c = 3
+    }
     changeSet(author: "hzero@hand-china.com", id: "2020-01-01-hadm_gw_rate_limit_dim") {
         def weight = 1
         if(helper.isSqlServer()){
@@ -19,22 +25,24 @@ databaseChangeLog(logicalFilePath: 'script/db/hadm_gw_rate_limit_dim.groovy') {
             column(name: "burst_capacity", type: "int",  remarks: "突发流量限制值")
             column(name: "rate_limit_dimension", type: "varchar(" + 240 * weight + ")",  remarks: "维度模版，来源值集:HADM.GATEWAY_RATE_LIMIT_DIMENSION，如user,role")  {constraints(nullable:"false")}
             column(name: "dimension_key", type: "varchar(" + 240 * weight + ")",  remarks: "维度key，与模版对应的key值，如1,2表示user=1、role=2")  {constraints(nullable:"false")}
-            column(name: "remark", type: "longtext",  remarks: "备注说明")   
-            column(name: "object_version_number", type: "bigint",   defaultValue:"1",   remarks: "行版本号，用来处理锁")  {constraints(nullable:"false")}  
-            column(name: "creation_date", type: "datetime",   defaultValueComputed:"CURRENT_TIMESTAMP",   remarks: "")  {constraints(nullable:"false")}  
-            column(name: "created_by", type: "bigint",   defaultValue:"-1",   remarks: "")  {constraints(nullable:"false")}  
-            column(name: "last_updated_by", type: "bigint",   defaultValue:"-1",   remarks: "")  {constraints(nullable:"false")}  
-            column(name: "last_update_date", type: "datetime",   defaultValueComputed:"CURRENT_TIMESTAMP",   remarks: "")  {constraints(nullable:"false")}  
-
+            column(name: "remark", type: "longtext",  remarks: "备注说明")
+            column(name: "object_version_number", type: "bigint",   defaultValue:"1",   remarks: "行版本号，用来处理锁")  {constraints(nullable:"false")}
+            column(name: "creation_date", type: "datetime",   defaultValueComputed:"CURRENT_TIMESTAMP",   remarks: "")  {constraints(nullable:"false")}
+            column(name: "created_by", type: "bigint",   defaultValue:"-1",   remarks: "")  {constraints(nullable:"false")}
+            column(name: "last_updated_by", type: "bigint",   defaultValue:"-1",   remarks: "")  {constraints(nullable:"false")}
+            column(name: "last_update_date", type: "datetime",   defaultValueComputed:"CURRENT_TIMESTAMP",   remarks: "")  {constraints(nullable:"false")}
         }
         createIndex(tableName: "hadm_gw_rate_limit_dim", indexName: "hadm_gw_rate_limit_dim_n1") {
             column(name: "rate_limit_id")
             column(name: "rate_limit_line_id")
         }
-
     }
-
     changeSet(author: "Admin@hand-china.com", id: "hadm_gw_rate_limit_dim-2021-02-24-version-2") {
         dropNotNullConstraint (tableName: "hadm_gw_rate_limit_dim", columnName: "replenish_rate", columnDataType: "int")
+    }
+    changeSet(author: "Admin@hand-china.com", id: "hadm_gw_rate_limit_dim-2021-06-23-version-3") {
+        addColumn (tableName: "hadm_gw_rate_limit_dim") {
+            column (name: "dimension_value", type: "varchar(" + 240* weight_c + ")", remarks: "维度值的含义", afterColumn: "last_updated_by")
+        }
     }
 }

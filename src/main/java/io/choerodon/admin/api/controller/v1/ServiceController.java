@@ -38,7 +38,7 @@ public class ServiceController {
     @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @ApiOperation("查询已经部署的应用服务")
     public ResponseEntity<List<HService>> listServices() {
-        return ResponseEntity.ok(serviceService.selectServices(null));
+        return ResponseEntity.ok(serviceService.selectServices(new HService()));
     }
 
     @GetMapping(value = "/model")
