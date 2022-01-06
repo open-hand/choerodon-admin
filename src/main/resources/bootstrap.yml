@@ -50,6 +50,7 @@ eureka:
     leaseExpirationDurationInSeconds: ${EUREKA_INSTANCE_LEASE_EXPIRATION_DURATION_IN_SECONDS:45}
     # 服务的一些元数据信息k
     metadata-map:
+      CONTEXT: /hadm
       VERSION: ${CHART_VERSION:0.24.0-alpha.4.RELEASE}
   client:
     serviceUrl:
