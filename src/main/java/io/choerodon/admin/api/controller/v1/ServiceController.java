@@ -42,6 +42,16 @@ public class ServiceController {
         return ResponseEntity.ok(serviceService.selectServices(new HService()).stream().filter(t -> !t.getServiceCode().contains("hzero")).collect(Collectors.toList()));
     }
 
+
+    @GetMapping("/service_codes")
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
+    @ApiOperation("查询已经部署的应用服务")
+    public ResponseEntity<List<String>> listServiceCodes() {
+       List<String> serviceCodes= serviceService.selectServices(new HService()).stream().map(HService::getServiceCode).filter(serviceCode -> !serviceCode.contains("hzero")).collect(Collectors.toList());
+        return ResponseEntity.ok(serviceCodes);
+    }
+
+
     @GetMapping(value = "/model")
     @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @ApiOperation(value = "获取已经部署的所有模块")
