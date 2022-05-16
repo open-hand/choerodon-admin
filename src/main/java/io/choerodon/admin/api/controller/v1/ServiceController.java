@@ -2,6 +2,7 @@ package io.choerodon.admin.api.controller.v1;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import io.swagger.annotations.ApiOperation;
 import org.hzero.admin.app.service.HServiceService;
@@ -38,8 +39,18 @@ public class ServiceController {
     @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
     @ApiOperation("查询已经部署的应用服务")
     public ResponseEntity<List<HService>> listServices() {
-        return ResponseEntity.ok(serviceService.selectServices(new HService()));
+        return ResponseEntity.ok(serviceService.selectServices(new HService()).stream().filter(t -> !t.getServiceCode().contains("hzero")).collect(Collectors.toList()));
     }
+
+
+    @GetMapping("/service_codes")
+    @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
+    @ApiOperation("查询已经部署的应用服务")
+    public ResponseEntity<List<String>> listServiceCodes() {
+       List<String> serviceCodes= serviceService.selectServices(new HService()).stream().map(HService::getServiceCode).filter(serviceCode -> !serviceCode.contains("hzero")).collect(Collectors.toList());
+        return ResponseEntity.ok(serviceCodes);
+    }
+
 
     @GetMapping(value = "/model")
     @Permission(level = ResourceLevel.ORGANIZATION, permissionLogin = true)
