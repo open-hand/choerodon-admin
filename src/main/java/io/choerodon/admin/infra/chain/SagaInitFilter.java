@@ -4,8 +4,6 @@ import org.hzero.admin.domain.vo.InitChainContext;
 import org.hzero.admin.domain.vo.Service;
 import org.hzero.admin.infra.chain.InitChain;
 import org.hzero.admin.infra.chain.InitFilter;
-import org.hzero.admin.infra.feign.PermissionRefreshService;
-import org.hzero.core.util.ResponseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import io.choerodon.admin.infra.feign.AsgardClient;
-import io.choerodon.core.exception.CommonException;
 
 /**
  * saga初始化filter
@@ -34,10 +31,14 @@ public class SagaInitFilter implements InitFilter, Ordered {
     @Override
     public void doFilter(InitChain chain, InitChainContext context) {
         Service service = context.getService();
-        ResponseEntity<Void> response = asgardClient.refresh(service.getServiceName());
+        try {
+            ResponseEntity<Void> response = asgardClient.refresh(service.getServiceName());
 
-        if (!response.getStatusCode().is2xxSuccessful()) {
-            LOGGER.warn("saga refresh failed, cause: " + (response.getBody() == null ? response.getStatusCodeValue() : response.getBody()));
+            if (!response.getStatusCode().is2xxSuccessful()) {
+                LOGGER.warn("saga refresh failed, cause: " + response.getStatusCodeValue());
+            }
+        } catch (Exception e) {
+            LOGGER.error(">>>>>>>>> saga refresh failed<<<<<<<<<<<<", e);
         }
         chain.initNext(chain, context);
     }
