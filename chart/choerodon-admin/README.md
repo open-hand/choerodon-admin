@@ -1,6 +1,6 @@
 # choerodon-admin
 
-Gateway of Choerodon.
+Admin of Choerodon.
 
 ## Installing the Chart
 
