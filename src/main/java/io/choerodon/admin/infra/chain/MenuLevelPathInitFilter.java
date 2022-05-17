@@ -25,8 +25,13 @@ public class MenuLevelPathInitFilter implements InitFilter, Ordered {
     @Override
     public void doFilter(InitChain chain, InitChainContext context) {
         LOGGER.info(">>>>>>>>> start init menu level path<<<<<<<<<<<<");
-        iamClient.fixMenuLevelPath();
-        LOGGER.info(">>>>>>>>> init menu level path success<<<<<<<<<<<<");
+        try {
+            iamClient.fixMenuLevelPath();
+            LOGGER.info(">>>>>>>>> init menu level path success<<<<<<<<<<<<");
+        } catch (Exception e) {
+            LOGGER.error(">>>>>>>>> init menu level path failed<<<<<<<<<<<<", e);
+        }
+
         chain.initNext(chain, context);
     }
 
