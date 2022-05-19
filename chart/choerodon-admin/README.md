@@ -62,7 +62,6 @@ $ helm delete choerodon-admin
 | extraEnv.SERVER_UNDERTOW_BUFFER_SIZE | int | `1024` |  |
 | extraEnv.SERVER_UNDERTOW_IO_THREADS | int | `4` |  |
 | extraEnv.SERVER_UNDERTOW_WORKER_THREADS | int | `128` |  |
-| extraEnv.SPRING_APPLICATION_NAME | string | `"agile-service"` |  |
 | extraEnv.SPRING_DATASOURCE_CONNECTION_TIMEOUT | int | `30000` |  |
 | extraEnv.SPRING_DATASOURCE_MAXIMUM_POOL_SIZE | int | `200` |  |
 | extraEnv.SPRING_DATASOURCE_MINIMUM_IDLE | int | `20` |  |

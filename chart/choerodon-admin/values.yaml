@@ -136,7 +136,6 @@ commonAnnotations: {}
 ##   FOO: "bar"
 ##
 extraEnv: 
-  SPRING_APPLICATION_NAME: agile-service
   # -- Redis host
   SPRING_REDIS_HOST: localhost
   # -- Redis port
